@@ -7,6 +7,7 @@
         tools:ignore="ProtectedPermissions"/> <!--Need to add this line because of usage stats permission is a system level permission-->
 
     <application
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

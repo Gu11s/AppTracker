@@ -17,8 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.AppOpsManagerCompat
 import androidx.core.content.ContextCompat.startActivity
+import com.gdevs.apptracker.presentation.app.AppListScreen
 import com.gdevs.apptracker.ui.theme.AppTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    //Greeting("Android")
+                    AppListScreen()
                     requestPermissions(this)
                 }
             }
@@ -65,5 +69,7 @@ private fun requestPermissions(context: Context): Boolean {
         context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         println("TIME PLEASE GIVE PERMISSION")
     }
+
+    println("TIME GIVEN PERMISSION")
     return mode == AppOpsManagerCompat.MODE_ALLOWED
 }
