@@ -4,6 +4,6 @@ import com.gdevs.apptracker.feature_app.domain.model.AppModel
 
 interface AppRepository {
 
-    suspend fun insertNote(app: AppModel)
+    suspend fun insertApp(app: AppModel)
 
 }

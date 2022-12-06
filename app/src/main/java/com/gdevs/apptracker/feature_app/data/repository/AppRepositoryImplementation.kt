@@ -8,7 +8,7 @@ class AppRepositoryImplementation(
     private val dao: AppDao
 ) : AppRepository {
 
-    override suspend fun insertNote(app: AppModel) {
+    override suspend fun insertApp(app: AppModel) {
         return dao.insertApp(app)
     }
 

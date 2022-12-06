@@ -6,7 +6,7 @@ data class AppModel(
     val appName: String,
     val firstTimeStamp: String,
     val lastTimeStamp: String,
-    val timeOnForeGround: String,
+    val timeOnForeground: String,
     @PrimaryKey
     val appId: Int? = null
 )
