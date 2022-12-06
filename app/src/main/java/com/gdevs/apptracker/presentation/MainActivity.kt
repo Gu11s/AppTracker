@@ -1,4 +1,4 @@
-package com.gdevs.apptracker
+package com.gdevs.apptracker.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
