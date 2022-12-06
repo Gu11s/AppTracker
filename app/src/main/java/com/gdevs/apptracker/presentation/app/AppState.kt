@@ -4,5 +4,8 @@ import com.gdevs.apptracker.feature_app.domain.model.AppModel
 
 data class AppState(
 
-    val apps: List<AppModel> = emptyList()
+
+    val isLoading: Boolean = false,
+    val apps: List<AppModel> = emptyList(),
+    val error: String = ""
 )
