@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.AppOpsManagerCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.getSystemService
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gdevs.apptracker.presentation.app.AppListScreen
 import com.gdevs.apptracker.ui.theme.AppTrackerTheme
@@ -30,9 +31,12 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    var firstTimeOpenAppTracker:Long = 0L
+    var firstTimeOpenAppTracker: Long = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        println("MAIN ACTIVITY CONTEXT ${Context.USAGE_STATS_SERVICE}")
+        //println("MAIN ACTIVITY CONTEXT ${getSystemService()}")
         setContent {
             AppTrackerTheme {
                 // A surface container using the 'background' color from the theme
@@ -46,6 +50,8 @@ class MainActivity : ComponentActivity() {
                     firstTimeOpenAppTracker = cal.timeInMillis
                     AppListScreen()
                     requestPermissions(this)
+
+                    println("TIME Get apps ${getApps(firstTimeOpenAppTracker)}")
 
                 }
             }
@@ -78,7 +84,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getApps(currentTime: Long) {
-        println("TIME VIEW MODEL")
 
         println("STATS CURRENT $currentTime")
 
@@ -104,27 +109,27 @@ class MainActivity : ComponentActivity() {
                 val stringBuilderApps = StringBuilder()
 
                 if (!(hours == 0L && minutes == 0L && seconds == 0L) && (lastTimeUsed > currentTime)) {
-//                if (!(hours == 0L && minutes == 0L && seconds == 0L)) {
+
 
                     appName = i.packageName
 
-                    if(appName.contains("com.google.android.")) {
+                    if (appName.contains("com.google.android.")) {
                         appName = appName.substring(19)
                     }
 
-                    if (appName.contains("com.google.")){
+                    if (appName.contains("com.google.")) {
                         appName = appName.substring(11)
                     }
 
-                    if(appName.contains("com.app.")){
+                    if (appName.contains("com.app.")) {
                         appName = appName.substring(8)
                     }
 
-                    if(appName.contains("com.")){
+                    if (appName.contains("com.")) {
                         appName = appName.substring(4)
                     }
 
-                    if(appName.contains("apps.")){
+                    if (appName.contains("apps.")) {
                         appName = appName.substring(5)
                     }
 

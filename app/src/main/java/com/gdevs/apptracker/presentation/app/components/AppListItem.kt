@@ -30,6 +30,7 @@ fun AppListItem(
         println("TIME APP ITEM")
         Text(
             text = "SALUDOS",
+            color = Color.White,
             style = MaterialTheme.typography.body1,
             overflow = TextOverflow.Ellipsis
         )
