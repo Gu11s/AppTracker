@@ -1,86 +1,23 @@
-package com.gdevs.apptracker.presentation
+package com.gdevs.apptracker.presentation.util
 
-import android.app.AppOpsManager
 import android.app.Application
 import android.app.usage.UsageStatsManager
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.os.Process
-import android.provider.Settings
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.app.AppOpsManagerCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.gdevs.apptracker.presentation.app.AppListScreen
-import com.gdevs.apptracker.ui.theme.AppTrackerTheme
-import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class GetAppsStats : Application() {
 
-    var firstTimeOpenAppTracker:Long = 0L
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            AppTrackerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    //Greeting("Android")
+    fun getApps() {
 
-                    val cal = Calendar.getInstance()
-                    firstTimeOpenAppTracker = cal.timeInMillis
-                    AppListScreen()
-                    requestPermissions(this)
+        var firstTimeOpenAppTracker: Long = 0L
 
-                }
-            }
-        }
-    }
+        val cal = Calendar.getInstance()
 
-    override fun onResume() {
-        super.onResume()
-        getApps(firstTimeOpenAppTracker)
-    }
-
-    private fun requestPermissions(context: Context): Boolean {
-        val appOpsManager: AppOpsManager =
-            context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        //val mode = appOpsManager.unsafeCheckOpNoThrow(OPSTR_GET_USAGE_STATS, Process.myUid(), context.packageName)
-        val mode = appOpsManager.checkOpNoThrow(
-            AppOpsManager.OPSTR_GET_USAGE_STATS,
-            Process.myUid(),
-            context.packageName
-        )
-
-        if (mode != AppOpsManagerCompat.MODE_ALLOWED) {
-            //TODO CREATE DIALOG TO OPEN SETTINGS AND GIVE PERMISSION
-            context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
-            println("TIME PLEASE GIVE PERMISSION")
-        }
-
-        println("TIME GIVEN PERMISSION")
-        return mode == AppOpsManagerCompat.MODE_ALLOWED
-    }
-
-    private fun getApps(currentTime: Long) {
+        firstTimeOpenAppTracker = cal.timeInMillis
         println("TIME VIEW MODEL")
 
-        println("STATS CURRENT $currentTime")
+        println("STATS CURRENT $firstTimeOpenAppTracker")
 
         val usageStatsManager: UsageStatsManager =
             getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
@@ -103,28 +40,28 @@ class MainActivity : ComponentActivity() {
                 var appName: String
                 val stringBuilderApps = StringBuilder()
 
-                if (!(hours == 0L && minutes == 0L && seconds == 0L) && (lastTimeUsed > currentTime)) {
+                if (!(hours == 0L && minutes == 0L && seconds == 0L) && (lastTimeUsed > firstTimeOpenAppTracker)) {
 //                if (!(hours == 0L && minutes == 0L && seconds == 0L)) {
 
                     appName = i.packageName
 
-                    if(appName.contains("com.google.android.")) {
+                    if (appName.contains("com.google.android.")) {
                         appName = appName.substring(19)
                     }
 
-                    if (appName.contains("com.google.")){
+                    if (appName.contains("com.google.")) {
                         appName = appName.substring(11)
                     }
 
-                    if(appName.contains("com.app.")){
+                    if (appName.contains("com.app.")) {
                         appName = appName.substring(8)
                     }
 
-                    if(appName.contains("com.")){
+                    if (appName.contains("com.")) {
                         appName = appName.substring(4)
                     }
 
-                    if(appName.contains("apps.")){
+                    if (appName.contains("apps.")) {
                         appName = appName.substring(5)
                     }
 
@@ -183,20 +120,9 @@ class MainActivity : ComponentActivity() {
                         println("TIME INSTANCE VISIBLE $lastTimeVisible")
                     }
                 }
+
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AppTrackerTheme {
-        Greeting("Android")
-    }
 }

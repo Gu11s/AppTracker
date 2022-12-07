@@ -27,8 +27,9 @@ fun AppListItem(
             .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        println("TIME APP ITEM")
         Text(
-            text = "${app.appName}. ${app.firstTimeStamp} (${app.lastTimeStamp})",
+            text = "SALUDOS",
             style = MaterialTheme.typography.body1,
             overflow = TextOverflow.Ellipsis
         )
